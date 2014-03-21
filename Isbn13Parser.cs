@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace IsbnTools
 {
-    public class Isbn13Parser
+    internal class Isbn13Parser
     {
         public Isbn13Parser(RangeMessage rangeMessage)
         {

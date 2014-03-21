@@ -16,7 +16,7 @@ namespace IsbnTools
             ParseRangeMessage();
         }
 
-        protected internal XDocument RangeMessageXml
+        internal XDocument RangeMessageXml
         {
             get { return _xml; }
         }
@@ -62,7 +62,7 @@ namespace IsbnTools
                 RegistrationGroup group;
                 if (_groups.TryGetValue(key, out group))
                 {
-                    return @group;
+                    return group;
                 }
             }
 

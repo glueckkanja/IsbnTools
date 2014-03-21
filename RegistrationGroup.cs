@@ -7,7 +7,7 @@ namespace IsbnTools
 {
     public class RegistrationGroup
     {
-        private RegistrationGroup(string uccPrefix, string groupIdentifier, string agency, IList<Range> rules)
+        private RegistrationGroup(string uccPrefix, string groupIdentifier, string agency, ICollection<Range> rules)
         {
             UccPrefix = uccPrefix;
             GroupIdentifier = groupIdentifier;
