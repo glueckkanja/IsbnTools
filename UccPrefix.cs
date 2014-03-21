@@ -21,5 +21,10 @@ namespace IsbnTools
 
             return new UccPrefix(prefix, agency);
         }
+
+        public override string ToString()
+        {
+            return Prefix;
+        }
     }
 }

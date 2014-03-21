@@ -4,25 +4,21 @@ namespace IsbnTools
 {
     public class Isbn13 : Ean13
     {
-        public Isbn13(string uccPrefix, string groupIdentifier, string publisher, string title)
-            : this(
-                uccPrefix, groupIdentifier, publisher, title,
-                CalculateEan13CheckDigit(uccPrefix + groupIdentifier + publisher + title))
+        protected internal Isbn13(RegistrationGroup group, string publisher, string title)
+            : this(group, publisher, title, CalculateEan13CheckDigit("" + group + publisher + title))
         {
         }
 
-        public Isbn13(string uccPrefix, string groupIdentifier, string publisher, string title, int checkDigit)
-            : base(uccPrefix + groupIdentifier + publisher + title, checkDigit)
+        protected internal Isbn13(RegistrationGroup group, string publisher, string title, int checkDigit)
+            : base(group + publisher + title, checkDigit)
         {
-            UccPrefix = uccPrefix;
-            GroupIdentifier = groupIdentifier;
+            Group = group;
             Publisher = publisher;
             Title = title;
             CheckDigit = checkDigit;
         }
 
-        public string UccPrefix { get; protected set; }
-        public string GroupIdentifier { get; protected set; }
+        public RegistrationGroup Group { get; protected set; }
         public string Publisher { get; protected set; }
         public string Title { get; protected set; }
 
@@ -35,15 +31,15 @@ namespace IsbnTools
         {
             return string.Concat(new object[]
             {
-                UccPrefix,
+                Group.UccPrefix,
                 seperator,
-                GroupIdentifier,
+                Group.GroupIdentifier,
                 seperator,
                 Publisher,
                 seperator,
                 Title,
                 seperator,
-                base.CheckDigit
+                CheckDigit
             });
         }
     }

@@ -7,7 +7,7 @@ namespace IsbnTools
 {
     public class RegistrationGroup
     {
-        private RegistrationGroup(string uccPrefix, string groupIdentifier, string agency, ICollection<Range> rules)
+        private RegistrationGroup(UccPrefix uccPrefix, string groupIdentifier, string agency, ICollection<Range> rules)
         {
             UccPrefix = uccPrefix;
             GroupIdentifier = groupIdentifier;
@@ -15,12 +15,12 @@ namespace IsbnTools
             Rules = rules;
         }
 
-        public string UccPrefix { get; private set; }
+        public UccPrefix UccPrefix { get; private set; }
         public string GroupIdentifier { get; private set; }
         public string Agency { get; private set; }
         public ICollection<Range> Rules { get; private set; }
 
-        public static RegistrationGroup FromXml(XElement groupElement)
+        public static RegistrationGroup FromXml(XElement groupElement, RangeMessage rangeMessage)
         {
             var prefix = (string) groupElement.Element("Prefix");
             var agency = (string) groupElement.Element("Agency");
@@ -32,7 +32,12 @@ namespace IsbnTools
 
             List<Range> rules = groupElement.Element("Rules").Elements("Rule").Select(Range.FromXml).ToList();
 
-            return new RegistrationGroup(uccPrefix, groupIdentifier, agency, rules);
+            return new RegistrationGroup(rangeMessage.FindUccPrefix(uccPrefix), groupIdentifier, agency, rules);
+        }
+
+        public override string ToString()
+        {
+            return UccPrefix + GroupIdentifier;
         }
     }
 }

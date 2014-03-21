@@ -37,7 +37,7 @@ namespace IsbnTools
 
             foreach (XElement elGroup in elGroups)
             {
-                RegistrationGroup group = RegistrationGroup.FromXml(elGroup);
+                RegistrationGroup group = RegistrationGroup.FromXml(elGroup, this);
                 _groups.Add(group.UccPrefix + group.GroupIdentifier, group);
             }
         }

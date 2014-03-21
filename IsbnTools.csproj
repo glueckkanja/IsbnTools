@@ -44,7 +44,6 @@
     <Compile Include="FileRangeMessageProvider.cs" />
     <Compile Include="IRangeMessageProvider.cs" />
     <Compile Include="Isbn13.cs" />
-    <Compile Include="Isbn13Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Range.cs" />
     <Compile Include="RangeMessage.cs" />
