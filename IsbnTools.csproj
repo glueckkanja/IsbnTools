@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ean13.cs" />
-    <Compile Include="FileBackedRangeMessageProvider.cs" />
+    <Compile Include="EmbeddedRangeMessageProvider.cs" />
     <Compile Include="FileRangeMessageProvider.cs" />
     <Compile Include="IRangeMessageProvider.cs" />
     <Compile Include="Isbn13.cs" />
@@ -49,7 +49,9 @@
     <Compile Include="RangeMessage.cs" />
     <Compile Include="RegistrationGroup.cs" />
     <Compile Include="UccPrefix.cs" />
-    <Compile Include="WebRangeMessageProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="range.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
