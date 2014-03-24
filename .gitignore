@@ -6,3 +6,5 @@ _ReSharper.*
 *.ReSharper
 *~
 *.tmp
+packages/
+

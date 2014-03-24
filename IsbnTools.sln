@@ -5,6 +5,15 @@ VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsbnTools", "IsbnTools.csproj", "{29656399-3E1C-48A1-8E97-235E7A00CA66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests\Tests.csproj", "{9CA92A02-E8E5-4D2E-B50E-9B847704EB10}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8F627E29-EFF8-4377-9FFD-21CFCD1310C6}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +24,10 @@ Global
 		{29656399-3E1C-48A1-8E97-235E7A00CA66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29656399-3E1C-48A1-8E97-235E7A00CA66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29656399-3E1C-48A1-8E97-235E7A00CA66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CA92A02-E8E5-4D2E-B50E-9B847704EB10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CA92A02-E8E5-4D2E-B50E-9B847704EB10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CA92A02-E8E5-4D2E-B50E-9B847704EB10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CA92A02-E8E5-4D2E-B50E-9B847704EB10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
