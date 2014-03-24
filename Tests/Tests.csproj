@@ -56,7 +56,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\IsbnTools.csproj">
+    <ProjectReference Include="..\IsbnTools.csproj">
       <Project>{29656399-3e1c-48a1-8e97-235e7a00ca66}</Project>
       <Name>IsbnTools</Name>
     </ProjectReference>
