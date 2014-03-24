@@ -22,12 +22,7 @@ namespace IsbnTools
         public string Publisher { get; protected set; }
         public string Title { get; protected set; }
 
-        public override string ToString()
-        {
-            return ToString("-");
-        }
-
-        protected override string ToString(string seperator)
+        public override string ToString(string seperator, bool forceValidCheckDigit)
         {
             return string.Concat(new object[]
             {
@@ -39,7 +34,7 @@ namespace IsbnTools
                 seperator,
                 Title,
                 seperator,
-                CheckDigit
+                forceValidCheckDigit ? CalculatedCheckDigit : CheckDigit
             });
         }
     }

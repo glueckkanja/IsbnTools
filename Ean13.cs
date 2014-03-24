@@ -35,15 +35,12 @@ namespace IsbnTools
 
             Digits = digits;
             CheckDigit = checkDigit;
+            CalculatedCheckDigit = CalculateEan13CheckDigit(Digits);
         }
 
-        public string Digits { get; protected set; }
+        public int CalculatedCheckDigit { get; protected set; }
         public int CheckDigit { get; protected set; }
-
-        public bool HasValidCheckDigit
-        {
-            get { return CheckDigit == CalculateCheckDigit(); }
-        }
+        public string Digits { get; protected set; }
 
         public static Ean13 Parse(string input, RangeMessage rangeMessage)
         {
@@ -88,17 +85,12 @@ namespace IsbnTools
 
         public override string ToString()
         {
-            return ToString("-");
+            return ToString("-", false);
         }
 
-        protected virtual string ToString(string seperator)
+        public virtual string ToString(string seperator, bool forceValidCheckDigit)
         {
-            return Digits.Insert(3, seperator) + seperator + CheckDigit;
-        }
-
-        private int CalculateCheckDigit()
-        {
-            return CalculateEan13CheckDigit(Digits);
+            return Digits.Insert(3, seperator) + seperator + (forceValidCheckDigit ? CalculatedCheckDigit : CheckDigit);
         }
 
         private static Isbn13 ParseIsbn13(string isbn13, RangeMessage rangeMessage)
