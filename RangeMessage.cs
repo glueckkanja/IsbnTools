@@ -56,7 +56,7 @@ namespace IsbnTools
 
         public RegistrationGroup FindGroup(string ean)
         {
-            for (int i = 1; i <= _longestGroup; i++)
+            for (int i = 4; i <= _longestGroup; i++)
             {
                 string key = ean.Substring(0, i);
 
