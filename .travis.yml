@@ -12,3 +12,4 @@ before_install:
 
 script:
  - xbuild IsbnTools.csproj
+ - .ci/xunit.sh Tests/bin/Debug/Tests.dll
