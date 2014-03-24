@@ -126,16 +126,17 @@ namespace IsbnTools
 
             int publisherIndex = group.UccPrefix.Prefix.Length + group.GroupIdentifier.Length;
 
-            string lookup = isbn;
+            // rules in the range message are always padded to 7 digits
+            // we can safely use the check digit too
+            string paddedIsbn = isbn + "0000000000000";
+            int paddedRange = int.Parse(paddedIsbn.Substring(publisherIndex, 7));
 
-            if (lookup.Length == 12)
+            Range range = group.Rules.Single(x => paddedRange >= x.Start && paddedRange <= x.End);
+
+            if (range.Length == 0)
             {
-                lookup += "0";
+                throw new Exception("Range not defined for use.");
             }
-
-            int intRange = int.Parse(lookup.Substring(publisherIndex, Math.Min(13 - publisherIndex, 7)));
-
-            Range range = group.Rules.Single(x => intRange >= x.Start && intRange <= x.End);
 
             string publisher = isbn.Substring(publisherIndex, range.Length);
 
