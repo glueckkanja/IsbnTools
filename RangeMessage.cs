@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace IsbnTools
@@ -9,6 +10,7 @@ namespace IsbnTools
         private readonly Dictionary<string, RegistrationGroup> _groups = new Dictionary<string, RegistrationGroup>();
         private readonly Dictionary<string, UccPrefix> _uccPrefixes = new Dictionary<string, UccPrefix>();
         private readonly XDocument _xml;
+        private int _longestGroup;
 
         public RangeMessage(XDocument xml)
         {
@@ -40,6 +42,8 @@ namespace IsbnTools
                 RegistrationGroup group = RegistrationGroup.FromXml(elGroup, this);
                 _groups.Add(group.UccPrefix + group.GroupIdentifier, group);
             }
+
+            _longestGroup = _groups.Max(x => x.Key.Length);
         }
 
         public UccPrefix FindUccPrefix(string ean)
@@ -52,12 +56,9 @@ namespace IsbnTools
 
         public RegistrationGroup FindGroup(string ean)
         {
-            string uccPrefix = ean.Substring(0, 3);
-
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= _longestGroup; i++)
             {
-                string groupIdentifier = ean.Substring(3, i);
-                string key = uccPrefix + groupIdentifier;
+                string key = ean.Substring(0, i);
 
                 RegistrationGroup group;
                 if (_groups.TryGetValue(key, out group))
