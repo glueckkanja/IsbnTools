@@ -51,5 +51,20 @@ namespace Tests
             string actual = Ean13.Parse(expected.Replace("-", ""), _rm).ToString();
             Assert.Equal(actual, expected);
         }
+
+        [Theory]
+        [InlineData("979-10-90636-07-1")]
+        public void CanParse979Books(string expected)
+        {
+            string actual = Ean13.Parse(expected.Replace("-", ""), _rm).ToString();
+            Assert.Equal(actual, expected);
+        }
+
+        [Theory]
+        [InlineData("979-0-700303-32-7")]
+        public void CannotParse979Ismn(string expected)
+        {
+            Assert.Throws<Exception>(() => Ean13.Parse(expected.Replace("-", ""), _rm));
+        }
     }
 }
