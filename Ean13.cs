@@ -44,10 +44,7 @@ namespace IsbnTools
 
         public static Ean13 Parse(string input, RangeMessage rangeMessage)
         {
-            if (input == null)
-            {
-                return null;
-            }
+            if (input == null) return null;
 
             string clean = CleanUpRegex.Replace(input, "").ToUpperInvariant();
 
@@ -62,12 +59,15 @@ namespace IsbnTools
 
                 if (rangeMessage.FindUccPrefix(country) != null)
                 {
-                    return ParseIsbn13(clean, rangeMessage);
+                    Isbn13 isbn = ParseIsbn13(clean, rangeMessage);
+
+                    if (isbn != null)
+                        return isbn;
                 }
 
                 if (clean.Length == 13)
                 {
-                    return new Ean13(clean.Substring(0, 12), int.Parse(clean.Substring(12, 1)));
+                    return new Ean13(clean.Substring(0, 12), clean[12] - 48);
                 }
 
                 return new Ean13(clean.Substring(0, 12));
@@ -93,27 +93,18 @@ namespace IsbnTools
             return Digits.Insert(3, seperator) + seperator + (forceValidCheckDigit ? CalculatedCheckDigit : CheckDigit);
         }
 
-        private static Isbn13 ParseIsbn13(string isbn13, RangeMessage rangeMessage)
+        private static Isbn13 ParseIsbn13(string isbn, RangeMessage rangeMessage)
         {
-            if (isbn13 == null) throw new ArgumentNullException("isbn13");
+            if (isbn == null) return null;
 
-            isbn13 = isbn13.Trim();
+            isbn = isbn.Trim();
 
-            if (isbn13.Length != 12 && isbn13.Length != 13)
-            {
-                throw new NotSupportedException("Only ISBN-13 is supported.");
-            }
-
-            return ParseIsbn13Impl(isbn13, rangeMessage);
-        }
-
-        private static Isbn13 ParseIsbn13Impl(string isbn, RangeMessage rangeMessage)
-        {
             RegistrationGroup group = rangeMessage.FindGroup(isbn);
 
             if (group == null)
             {
-                throw new Exception("No publisher group found. Unable to format.");
+                // No publisher group found. Unable to format.
+                return null;
             }
 
             int publisherIndex = group.UccPrefix.Prefix.Length + group.GroupIdentifier.Length;
@@ -127,7 +118,8 @@ namespace IsbnTools
 
             if (range.Length == 0)
             {
-                throw new Exception("Range not defined for use.");
+                // Range not defined for use.
+                return null;
             }
 
             string publisher = isbn.Substring(publisherIndex, range.Length);

@@ -62,9 +62,9 @@ namespace Tests
 
         [Theory]
         [InlineData("979-0-700303-32-7")]
-        public void CannotParse979Ismn(string expected)
+        public void CanParse979IsmnAsEan(string expected)
         {
-            Assert.Throws<Exception>(() => Ean13.Parse(expected.Replace("-", ""), _rm));
+            Assert.IsType<Ean13>(Ean13.Parse(expected.Replace("-", ""), _rm));
         }
     }
 }
