@@ -2,56 +2,47 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace IsbnTools
 {
     public class RangeMessage
     {
         private readonly Dictionary<string, RegistrationGroup> _groups = new Dictionary<string, RegistrationGroup>();
+        private readonly int _longestGroup;
         private readonly Dictionary<string, UccPrefix> _uccPrefixes = new Dictionary<string, UccPrefix>();
-        private readonly XDocument _xml;
-        private int _longestGroup;
 
         public RangeMessage(XDocument xml)
         {
-            _xml = xml;
-            ParseRangeMessage();
-        }
-
-        internal XDocument RangeMessageXml
-        {
-            get { return _xml; }
-        }
-
-        private void ParseRangeMessage()
-        {
-            XElement elRoot = _xml.Element("ISBNRangeMessage");
-
-            IEnumerable<XElement> elPrefixes = elRoot.Element("EAN.UCCPrefixes").Elements("EAN.UCC");
-
-            foreach (XElement elPrefix in elPrefixes)
+            foreach (XElement el in xml.XPathSelectElements("/ISBNRangeMessage/EAN.UCCPrefixes/EAN.UCC"))
             {
-                UccPrefix ucc = UccPrefix.FromXml(elPrefix);
+                UccPrefix ucc = UccPrefix.FromXml(el);
                 _uccPrefixes.Add(ucc.Prefix, ucc);
             }
 
-            IEnumerable<XElement> elGroups = elRoot.Element("RegistrationGroups").Elements("Group");
-
-            foreach (XElement elGroup in elGroups)
+            foreach (XElement el in xml.XPathSelectElements("/ISBNRangeMessage/RegistrationGroups/Group"))
             {
-                RegistrationGroup group = RegistrationGroup.FromXml(elGroup, this);
+                RegistrationGroup group = RegistrationGroup.FromXml(el, this);
                 _groups.Add(group.UccPrefix + group.GroupIdentifier, group);
             }
 
-            _longestGroup = _groups.Max(x => x.Key.Length);
+            _longestGroup = _groups.Keys.Max(x => x.Length);
         }
 
         public UccPrefix FindUccPrefix(string ean)
         {
-            string key = ean.Substring(0, 3);
+            if (ean == null || ean.Length < 3) return null;
+
+            if (ean.Length > 3)
+                ean = ean.Substring(0, 3);
 
             UccPrefix prefix;
-            return _uccPrefixes.TryGetValue(key, out prefix) ? prefix : null;
+            if (_uccPrefixes.TryGetValue(ean, out prefix))
+            {
+                return prefix;
+            }
+
+            return null;
         }
 
         public RegistrationGroup FindGroup(string ean)
